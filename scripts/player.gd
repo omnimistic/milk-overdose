@@ -35,5 +35,13 @@ func _physics_process(delta: float) -> void:
 			$AnimationPlayer.play("idle")
 		else:
 			$AnimationPlayer.play("run")
+	else:
+		if velocity.y < -50.0:
+			$AnimationPlayer.play("jump_up")
+		elif velocity.y > 50.0:
+			$AnimationPlayer.play("fall_down")
+		else:
+			pass
+			#$AnimationPlayer.play("jump_zero_val")
 
 	move_and_slide()

@@ -114,7 +114,6 @@ vframes = 9
 frame = 20
 
 [node name="rain" type="ColorRect" parent="." unique_id=1339848731]
-visible = false
 material = SubResource("ShaderMaterial_vw3mj")
 offset_right = 1328.0
 offset_bottom = 926.0
