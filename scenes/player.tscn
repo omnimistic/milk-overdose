@@ -279,6 +279,14 @@ _data = {
 &"run": SubResource("Animation_dqkch")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vw3mj"]
+particle_flag_disable_z = true
+angle_min = 5.000011
+angle_max = 15.0000105
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -50, 0)
+
 [node name="player" type="CharacterBody2D" unique_id=2050326393]
 script = ExtResource("1_g2els")
 
@@ -297,3 +305,9 @@ autoplay = &"idle"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=23535824]
 zoom = Vector2(3, 3)
+
+[node name="dust" type="GPUParticles2D" parent="." unique_id=938232579]
+position = Vector2(0, 7)
+emitting = false
+lifetime = 0.15000000000000002
+process_material = SubResource("ParticleProcessMaterial_vw3mj")

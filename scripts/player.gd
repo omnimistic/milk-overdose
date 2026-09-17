@@ -43,5 +43,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			pass
 			#$AnimationPlayer.play("jump_zero_val")
+	
+	$dust.emitting = abs(velocity.x) > 10 and is_on_floor()
 
 	move_and_slide()
