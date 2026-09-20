@@ -6,6 +6,8 @@ const ACCELERATION = 1000.0
 const FRICTION = 1200.0
 const JUMP_VELOCITY = -400.0
 
+var hp = 9
+
 var is_attacking:bool = false
 var is_air_slamming:bool = false
 
@@ -39,12 +41,16 @@ var juice_scale_vel:Vector2 = Vector2.ZERO
 var spring_k:float = 200.0
 var damp_c:float = 15.0
 var flash_timer:float = 0.0
+var flash_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 
 @onready var tele_sword_cam_ui = $HUD/tele_sword_cam_mask
 @onready var tele_sword_viewport = $HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport
 @onready var tele_sword_cam = $HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport/tele_sword_cam
 
 var is_tele_sword_crashing:bool = false
+
+@onready var player_hitbox_col = $hit_box/CollisionShape2D 
+var player_hitbox_rest_pos: Vector2
 
 func _ready() -> void:
 	if tele_sword:
@@ -60,6 +66,9 @@ func _ready() -> void:
 	
 	if tele_sword_col:
 		sword_col_rest_pos = tele_sword_col.position
+	
+	if player_hitbox_col:
+		player_hitbox_rest_pos = player_hitbox_col.position
 
 func _process(delta: float) -> void:
 	if cam_shake_strength > 0:
@@ -75,7 +84,7 @@ func _process(delta: float) -> void:
 	
 	if flash_timer > 0:
 		flash_timer -= delta
-		$Sprite2D.modulate = Color(5.0, 5.0, 5.0, 1.0)
+		$Sprite2D.modulate = flash_color
 	else:
 		$Sprite2D.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
@@ -164,10 +173,14 @@ func _physics_process(delta: float) -> void:
 	
 	if direction > 0:
 		$Sprite2D.flip_h = false
+		if player_hitbox_col:
+			player_hitbox_col.position.x = abs(player_hitbox_rest_pos.x)
 		if not sword_active:
 			tele_sword.position.x = abs(tele_sword.position.x)
 	elif direction < 0:
 		$Sprite2D.flip_h = true
+		if player_hitbox_col:
+			player_hitbox_col.position.x = -abs(player_hitbox_rest_pos.x)
 		if not sword_active:
 			tele_sword.position.x = -abs(tele_sword.position.x)
 	
@@ -277,3 +290,23 @@ func reset_tele_sword(teleport_player:bool) -> void:
 		tele_sword.position.x = abs(tele_sword.position.x)
 		tele_sword_sprite_location.position.x = abs(sword_cam_rest_pos.x)
 		tele_sword_col.position.x = abs(sword_col_rest_pos.x)
+
+
+func take_damage(amount: int) -> void:
+	hp -= amount
+	print("hp = "+str(hp))
+	
+	flash_color = Color(5.0, 0.0, 0.0, 1.0) 
+	flash_timer = 0.2
+	
+	$Sprite2D.scale = Vector2(1.5, 0.5) 
+	
+	apply_camera_shake(8.0)
+	
+	if hp <= 0:
+		die_from_fall()
+
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	if body.has_method("receive_damage"):
+		body.receive_damage()

@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://os3o11hyubww"]
+
+[ext_resource type="Script" uid="uid://dqy8f3cuafpeh" path="res://scripts/crabby.gd" id="1_rxeum"]
+[ext_resource type="Texture2D" uid="uid://crke8klem5q45" path="res://assets/sprites/Crabby.png" id="2_mu063"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uj82j"]
+size = Vector2(23, 19)
+
+[sub_resource type="Animation" id="Animation_uj82j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2d:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_rxeum"]
+resource_name = "die"
+length = 0.42
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2d:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334, 0.16666667, 0.20000002, 0.23333335, 0.26666668, 0.3, 0.33333334, 0.36666667, 0.40000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 39]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4000000000000003]
+}
+
+[sub_resource type="Animation" id="Animation_rgfd0"]
+resource_name = "moving"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2d:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0769, 0.1538, 0.2307, 0.3076, 0.3845, 0.4614, 0.5383, 0.6152, 0.6921, 0.76666665, 0.769, 0.8459, 0.9228),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kyarh"]
+_data = {
+&"RESET": SubResource("Animation_uj82j"),
+&"die": SubResource("Animation_rxeum"),
+&"moving": SubResource("Animation_rgfd0")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vw3mj"]
+size = Vector2(41, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sg1tp"]
+size = Vector2(31, 17)
+
+[node name="crabby" type="CharacterBody2D" unique_id=1354506998]
+script = ExtResource("1_rxeum")
+
+[node name="Sprite2d" type="Sprite2D" parent="." unique_id=254023244]
+texture_filter = 1
+position = Vector2(0, -1.04)
+texture = ExtResource("2_mu063")
+hframes = 40
+frame = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1150516302]
+position = Vector2(-0.5, 5.5)
+shape = SubResource("RectangleShape2D_uj82j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=861270922]
+libraries/ = SubResource("AnimationLibrary_kyarh")
+autoplay = &"moving"
+
+[node name="to" type="Node2D" parent="." unique_id=391161574]
+
+[node name="fro" type="Node2D" parent="." unique_id=1173613418]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1016783902]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=83650600]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_vw3mj")
+
+[node name="Area2D2" type="Area2D" parent="." unique_id=311714850]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=352484959]
+position = Vector2(0.5, 5.5)
+shape = SubResource("RectangleShape2D_sg1tp")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]

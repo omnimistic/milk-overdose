@@ -16,6 +16,10 @@ initial_velocity_min = 10.0
 initial_velocity_max = 20.0
 gravity = Vector3(0, -50, 0)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sg1tp"]
+radius = 6.1913705
+height = 22.13884
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vw3mj"]
 shader = ExtResource("3_rtw2f")
 shader_parameter/spritesheet = ExtResource("1_wu84c")
@@ -29,7 +33,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/path = NodePath("CharacterBody2D/Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -41,7 +45,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/path = NodePath("CharacterBody2D/Sprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -53,7 +57,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/path = NodePath("CharacterBody2D/Sprite2D:hframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -70,7 +74,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/path = NodePath("CharacterBody2D/Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -82,7 +86,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/path = NodePath("CharacterBody2D/Sprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -94,7 +98,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/path = NodePath("CharacterBody2D/Sprite2D:hframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -111,7 +115,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/path = NodePath("CharacterBody2D/Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -123,7 +127,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/path = NodePath("CharacterBody2D/Sprite2D:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -135,7 +139,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/path = NodePath("CharacterBody2D/Sprite2D:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -226,19 +230,24 @@ vframes = 9
 frame = 20
 metadata/_edit_lock_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=711081646]
-texture_filter = 1
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1480749291]
 position = Vector2(-42, 330.00003)
 scale = Vector2(5.33, 5.33)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=711081646]
+texture_filter = 1
 texture = ExtResource("2_8ln24")
 hframes = 8
-metadata/_edit_group_ = true
 
-[node name="dust" type="GPUParticles2D" parent="Sprite2D" unique_id=938232579]
+[node name="dust" type="GPUParticles2D" parent="CharacterBody2D/Sprite2D" unique_id=938232579]
 position = Vector2(-2, 23.5)
 emitting = false
 lifetime = 0.15000000000000002
 process_material = SubResource("ParticleProcessMaterial_vw3mj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1956393464]
+position = Vector2(0.5628518, 12.945585)
+shape = SubResource("CapsuleShape2D_sg1tp")
 
 [node name="rain" type="ColorRect" parent="." unique_id=1339848731]
 material = SubResource("ShaderMaterial_vw3mj")
@@ -259,6 +268,9 @@ libraries/ = SubResource("AnimationLibrary_jk1qb")
 
 [node name="stop_pos" type="Node2D" parent="." unique_id=1756951593]
 position = Vector2(403, 421)
+
+[node name="fall_pos" type="Node2D" parent="." unique_id=1724357836]
+position = Vector2(403, 700)
 
 [node name="Control" type="Control" parent="." unique_id=971023143]
 layout_mode = 1

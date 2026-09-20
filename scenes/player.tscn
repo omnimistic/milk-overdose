@@ -74,6 +74,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [1]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hit_box/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_fjrip"]
 resource_name = "attack_1"
@@ -125,6 +137,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hit_box/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_smehm"]
@@ -178,6 +202,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [1]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hit_box/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
 
 [sub_resource type="Animation" id="Animation_ur7pv"]
 resource_name = "attack_3"
@@ -229,6 +265,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hit_box/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.0183, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_d2wvv"]
@@ -606,7 +654,7 @@ length = 0.001
 
 [sub_resource type="Animation" id="Animation_f1ej7"]
 resource_name = "default"
-length = 0.39999999999999997
+length = 0.4
 loop_mode = 1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oprun"]
@@ -629,6 +677,10 @@ corner_radius_top_left = 1000
 corner_radius_top_right = 1000
 corner_radius_bottom_right = 1000
 corner_radius_bottom_left = 1000
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h74sx"]
+radius = 3.0000002
+height = 16.0
 
 [node name="player" type="CharacterBody2D" unique_id=2050326393 groups=["player"]]
 script = ExtResource("1_g2els")
@@ -727,5 +779,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="hit_box" type="Area2D" parent="." unique_id=1505123072]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box" unique_id=175057664]
+position = Vector2(15, 2)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_h74sx")
+disabled = true
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="tele_attack_sword/tele_sword_hitbox" to="." method="_on_tele_sword_hitbox_body_entered"]
+[connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
