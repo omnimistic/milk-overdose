@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dd2bl1p072i1e"]
+
+[ext_resource type="Script" uid="uid://2ueoddmnfle1" path="res://scripts/key.gd" id="1_fttkb"]
+[ext_resource type="Texture2D" uid="uid://b32uulu7v5pbv" path="res://assets/sprites/chesttt.png" id="1_yk2u2"]
+
+[sub_resource type="Animation" id="Animation_fttkb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
+[sub_resource type="Animation" id="Animation_wy8tx"]
+resource_name = "loop"
+length = 0.26999999999999996
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.1, 0.13333334, 0.16666667, 0.2, 0.23333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [10, 11, 12, 13, 14, 15, 16, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_brs3p"]
+_data = {
+&"RESET": SubResource("Animation_fttkb"),
+&"loop": SubResource("Animation_wy8tx")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vw3mj"]
+radius = 61.0
+
+[node name="Area2D" type="Area2D" unique_id=1768709104]
+script = ExtResource("1_fttkb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=700962855]
+texture_filter = 1
+texture = ExtResource("1_yk2u2")
+hframes = 23
+frame = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2038708382]
+libraries/ = SubResource("AnimationLibrary_brs3p")
+autoplay = &"loop"
+speed_scale = 0.3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1107787545]
+shape = SubResource("CircleShape2D_vw3mj")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -292,16 +292,15 @@ func reset_tele_sword(teleport_player:bool) -> void:
 		tele_sword_col.position.x = abs(sword_col_rest_pos.x)
 
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	hp -= amount
-	print("hp = "+str(hp))
-	
 	flash_color = Color(5.0, 0.0, 0.0, 1.0) 
 	flash_timer = 0.2
-	
-	$Sprite2D.scale = Vector2(1.5, 0.5) 
-	
+	$Sprite2D.scale = Vector2(1.5, 0.5)
 	apply_camera_shake(8.0)
+	
+	if knockback != Vector2.ZERO:
+		velocity = knockback
 	
 	if hp <= 0:
 		die_from_fall()
