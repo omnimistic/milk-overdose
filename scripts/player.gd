@@ -24,16 +24,24 @@ var cam_shake_fade:float = 10.0
 var is_tele_attacking:bool = false
 var sword_active:bool = false
 var sword_direction:float = 1.0
-const SWORD_SPEED:float = 100.0
+const SWORD_SPEED:float = 160.0
 @onready var tele_sword = $tele_attack_sword
+@onready var tele_sword_sprite_location = $tele_attack_sword/tele_cam_location
+
 
 var sword_rest_pos:Vector2
 var sword_rest_scale:Vector2
+var sword_cam_rest_pos:Vector2
 
 var juice_scale_vel:Vector2 = Vector2.ZERO
 var spring_k:float = 200.0
 var damp_c:float = 15.0
 var flash_timer:float = 0.0
+
+@onready var tele_sword_cam_ui = $HUD/tele_sword_cam_mask
+@onready var tele_sword_viewport = $HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport
+@onready var tele_sword_cam = $HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport/tele_sword_cam
+
 
 func _ready() -> void:
 	if tele_sword:
@@ -41,6 +49,11 @@ func _ready() -> void:
 		sword_rest_scale = tele_sword.scale
 		tele_sword.visible = false
 		tele_sword.top_level = false
+		sword_cam_rest_pos = tele_sword_sprite_location.position
+	
+	if tele_sword_viewport:
+		tele_sword_viewport.world_2d = get_viewport().world_2d
+		tele_sword_cam_ui.visible = false
 
 func _process(delta: float) -> void:
 	if cam_shake_strength > 0:
@@ -60,13 +73,17 @@ func _process(delta: float) -> void:
 	else:
 		$Sprite2D.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
+
 func apply_camera_shake(strength:float) -> void:
 	cam_shake_strength = strength
+
 
 func _physics_process(delta: float) -> void:
 	
 	if sword_active and tele_sword:
 		tele_sword.global_position.x += sword_direction * SWORD_SPEED * delta
+		
+		tele_sword_cam.global_position = tele_sword_sprite_location.global_position
 	
 	if combo_timer > 0:
 		combo_timer -= delta
@@ -123,12 +140,15 @@ func _physics_process(delta: float) -> void:
 						
 	if Input.is_action_just_pressed("tele_attack"):
 		if sword_active:
-			global_position = tele_sword.global_position
+			global_position = tele_sword_sprite_location.global_position
 			sword_active = false
 			tele_sword.visible = false
 			tele_sword.top_level = false
 			tele_sword.position = sword_rest_pos
 			tele_sword.scale = sword_rest_scale
+			
+			if tele_sword_cam_ui:
+				tele_sword_cam_ui.visible = false
 			
 			if $Sprite2D.flip_h:
 				tele_sword.position.x = -abs(tele_sword.position.x)
@@ -203,9 +223,14 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		tele_sword.global_scale = saved_global_scale
 		tele_sword.visible = true
 		
+		if tele_sword_cam_ui:
+			tele_sword_cam_ui.visible = true
+		
 		if $Sprite2D.flip_h:
 			sword_direction = -1.0
 			$tele_attack_sword/TeleAttackSword.flip_h = true
+			tele_sword_sprite_location.position.x = -abs(sword_cam_rest_pos.x)
 		else :
 			sword_direction = 1.0
 			$tele_attack_sword/TeleAttackSword.flip_h = false
+			tele_sword_sprite_location.position.x = abs(sword_cam_rest_pos.x)

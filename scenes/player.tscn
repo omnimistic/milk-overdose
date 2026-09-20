@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://kssedriapq54" path="res://assets/sprites/a4.png" id="6_smehm"]
 [ext_resource type="Texture2D" uid="uid://bf8prc2mq5dh7" path="res://assets/sprites/tele_attack.png" id="9_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://dduc5b210ej8k" path="res://assets/sprites/tele_attack_sword.png" id="10_y4r1p"]
+[ext_resource type="Texture2D" uid="uid://b6vj4wd1rqrac" path="res://assets/sprites/circle_filled.png" id="11_d2wvv"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vw3mj"]
 particle_flag_disable_z = true
@@ -602,41 +603,28 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_jej6c"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TeleAttackSword:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
 
 [sub_resource type="Animation" id="Animation_f1ej7"]
 resource_name = "default"
 length = 0.39999999999999997
 loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TeleAttackSword:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13, 0.26),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oprun"]
 _data = {
 &"RESET": SubResource("Animation_jej6c"),
 &"default": SubResource("Animation_f1ej7")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jej6c"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_top_left = 1000
+corner_radius_top_right = 1000
+corner_radius_bottom_right = 1000
+corner_radius_bottom_left = 1000
 
 [node name="player" type="CharacterBody2D" unique_id=2050326393]
 script = ExtResource("1_g2els")
@@ -670,9 +658,53 @@ texture_filter = 1
 position = Vector2(-0.01, -16.49)
 texture = ExtResource("10_y4r1p")
 hframes = 3
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="tele_attack_sword" unique_id=1904001615]
 libraries/ = SubResource("AnimationLibrary_oprun")
 autoplay = &"default"
+
+[node name="tele_cam_location" type="Node2D" parent="tele_attack_sword" unique_id=1612311935]
+position = Vector2(16, 2)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=659958833]
+
+[node name="tele_sword_cam_mask" type="TextureRect" parent="HUD" unique_id=995909885]
+clip_children = 1
+custom_minimum_size = Vector2(192, 192)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_bottom = 64.0
+grow_horizontal = 0
+texture = ExtResource("11_d2wvv")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/tele_sword_cam_mask" unique_id=112933399]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HUD/tele_sword_cam_mask/SubViewportContainer" unique_id=458894303]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(192, 192)
+render_target_update_mode = 4
+
+[node name="tele_sword_cam" type="Camera2D" parent="HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport" unique_id=234297139]
+zoom = Vector2(0.925, 0.925)
+
+[node name="Panel" type="Panel" parent="HUD/tele_sword_cam_mask" unique_id=2100699309]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jej6c")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
