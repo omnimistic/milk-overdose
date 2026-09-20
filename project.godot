@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="milk overdose"
-run/main_scene="uid://bn4xkvos7ik1f"
+run/main_scene="uid://di7hf6llnec3i"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
@@ -23,6 +23,10 @@ window/stretch/aspect="expand"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+
+[global_group]
+
+player=""
 
 [input]
 

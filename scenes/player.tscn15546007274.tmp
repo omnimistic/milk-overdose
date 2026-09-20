@@ -615,10 +615,6 @@ _data = {
 &"default": SubResource("Animation_f1ej7")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sg1tp"]
-radius = 2.0
-height = 12.0
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jej6c"]
 draw_center = false
 border_width_left = 4
@@ -671,13 +667,6 @@ autoplay = &"default"
 [node name="tele_cam_location" type="Node2D" parent="tele_attack_sword" unique_id=1612311935]
 position = Vector2(16, 2)
 
-[node name="tele_sword_hitbox" type="Area2D" parent="tele_attack_sword" unique_id=721656876]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="tele_attack_sword/tele_sword_hitbox" unique_id=558088719]
-position = Vector2(16, 2)
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_sg1tp")
-
 [node name="HUD" type="CanvasLayer" parent="." unique_id=659958833]
 
 [node name="tele_sword_cam_mask" type="TextureRect" parent="HUD" unique_id=995909885]
@@ -719,13 +708,10 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jej6c")
 
 [node name="ColorRect" type="ColorRect" parent="HUD" unique_id=624324868]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="tele_attack_sword/tele_sword_hitbox" to="." method="_on_tele_sword_hitbox_body_entered"]

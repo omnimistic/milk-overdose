@@ -27,11 +27,13 @@ var sword_direction:float = 1.0
 const SWORD_SPEED:float = 160.0
 @onready var tele_sword = $tele_attack_sword
 @onready var tele_sword_sprite_location = $tele_attack_sword/tele_cam_location
+@onready var tele_sword_col = $tele_attack_sword/tele_sword_hitbox/CollisionShape2D
 
 
 var sword_rest_pos:Vector2
 var sword_rest_scale:Vector2
 var sword_cam_rest_pos:Vector2
+var sword_col_rest_pos:Vector2
 
 var juice_scale_vel:Vector2 = Vector2.ZERO
 var spring_k:float = 200.0
@@ -42,6 +44,7 @@ var flash_timer:float = 0.0
 @onready var tele_sword_viewport = $HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport
 @onready var tele_sword_cam = $HUD/tele_sword_cam_mask/SubViewportContainer/SubViewport/tele_sword_cam
 
+var is_tele_sword_crashing:bool = false
 
 func _ready() -> void:
 	if tele_sword:
@@ -54,6 +57,9 @@ func _ready() -> void:
 	if tele_sword_viewport:
 		tele_sword_viewport.world_2d = get_viewport().world_2d
 		tele_sword_cam_ui.visible = false
+	
+	if tele_sword_col:
+		sword_col_rest_pos = tele_sword_col.position
 
 func _process(delta: float) -> void:
 	if cam_shake_strength > 0:
@@ -80,9 +86,8 @@ func apply_camera_shake(strength:float) -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	if sword_active and tele_sword:
+	if sword_active and tele_sword and not is_tele_sword_crashing:
 		tele_sword.global_position.x += sword_direction * SWORD_SPEED * delta
-		
 		tele_sword_cam.global_position = tele_sword_sprite_location.global_position
 	
 	if combo_timer > 0:
@@ -139,32 +144,14 @@ func _physics_process(delta: float) -> void:
 						$AnimationPlayer.play("attack_3")
 						
 	if Input.is_action_just_pressed("tele_attack"):
-		if sword_active:
-			global_position = tele_sword_sprite_location.global_position
-			sword_active = false
-			tele_sword.visible = false
-			tele_sword.top_level = false
-			tele_sword.position = sword_rest_pos
-			tele_sword.scale = sword_rest_scale
-			
-			if tele_sword_cam_ui:
-				tele_sword_cam_ui.visible = false
-			
-			if $Sprite2D.flip_h:
-				tele_sword.position.x = -abs(tele_sword.position.x)
-			else:
-				tele_sword.position.x = abs(tele_sword.position.x)
-			
-			velocity = Vector2.ZERO
-			
-			apply_camera_shake(20.0)
-			$Sprite2D.scale = Vector2(0.2, 2.5)
-			flash_timer = 0.15
+		if sword_active and not is_tele_sword_crashing:
+			reset_tele_sword(true)
 		else:
 			if not is_attacking and not is_tele_attacking:
 				is_tele_attacking = true
 				velocity.x = 0
 				$AnimationPlayer.play("tele_attack")
+
 	
 	var direction := 0.0
 	if not is_attacking and not is_tele_attacking:
@@ -230,7 +217,63 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			sword_direction = -1.0
 			$tele_attack_sword/TeleAttackSword.flip_h = true
 			tele_sword_sprite_location.position.x = -abs(sword_cam_rest_pos.x)
+			tele_sword_col.position.x = -abs(sword_col_rest_pos.x)
 		else :
 			sword_direction = 1.0
 			$tele_attack_sword/TeleAttackSword.flip_h = false
 			tele_sword_sprite_location.position.x = abs(sword_cam_rest_pos.x)
+			tele_sword_col.position.x = abs(sword_col_rest_pos.x)
+
+
+func die_from_fall():
+	$HUD/ColorRect.visible = true
+	$HUD/ColorRect.modulate.a = 0.0
+	
+	var tween = create_tween()
+	
+	tween.tween_property($HUD/ColorRect, "modulate:a", 1.0, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_interval(0.3)
+	tween.tween_callback(get_tree().reload_current_scene)
+
+
+func _on_tele_sword_hitbox_body_entered(body: Node2D) -> void:
+	if not body.is_in_group("player"):
+		if not sword_active or is_tele_sword_crashing:
+			return
+		
+		is_tele_sword_crashing = true
+		apply_camera_shake(5.0)
+		
+		$tele_attack_sword/TeleAttackSword.modulate = Color(5.0, 5.0, 5.0, 1.0)
+		var tween = create_tween()
+		tween.tween_interval(0.2)
+		tween.tween_callback(reset_tele_sword.bind(false))
+
+
+func reset_tele_sword(teleport_player:bool) -> void:
+	sword_active = false
+	is_tele_sword_crashing = false
+	
+	if teleport_player:
+		global_position = tele_sword_sprite_location.global_position
+		velocity = Vector2.ZERO
+		apply_camera_shake(20.0)
+		$Sprite2D.scale = Vector2(0.2, 2.5)
+		flash_timer = 0.15
+	
+	tele_sword.visible = false
+	tele_sword.top_level = false
+	tele_sword.position = sword_rest_pos
+	tele_sword.scale = sword_rest_scale
+	$tele_attack_sword/TeleAttackSword.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+	tele_sword_cam_ui.visible = false
+	
+	if $Sprite2D.flip_h:
+		tele_sword.position.x = -abs(tele_sword.position.x)
+		tele_sword_sprite_location.position.x = -abs(sword_cam_rest_pos.x)
+		tele_sword_col.position.x = -abs(sword_col_rest_pos.x)
+	else:
+		tele_sword.position.x = abs(tele_sword.position.x)
+		tele_sword_sprite_location.position.x = abs(sword_cam_rest_pos.x)
+		tele_sword_col.position.x = abs(sword_col_rest_pos.x)

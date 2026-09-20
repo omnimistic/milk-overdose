@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://7wmr2diaftfl"]
+
+[ext_resource type="Script" uid="uid://da15gp5td7af0" path="res://scripts/fall_off.gd" id="1_bt20w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vw3mj"]
+size = Vector2(1000, 20)
+
+[node name="fall_off" type="Area2D" unique_id=203180297]
+script = ExtResource("1_bt20w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1910236026]
+shape = SubResource("RectangleShape2D_vw3mj")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,311 @@
+[gd_scene format=4 uid="uid://di7hf6llnec3i"]
+
+[ext_resource type="Script" uid="uid://crp41thisppgv" path="res://scripts/main_menu.gd" id="1_rtw2f"]
+[ext_resource type="Texture2D" uid="uid://copgdwrtf0cu1" path="res://assets/sprites/s4m_ur4i_elements-gamejam-free-8x8-sprites.png" id="1_wu84c"]
+[ext_resource type="Texture2D" uid="uid://e4quwe1goq2g" path="res://assets/sprites/Meow-Knight_Idle.png" id="2_8ln24"]
+[ext_resource type="Shader" uid="uid://cewxsss5abqix" path="res://shaders/rain.gdshader" id="3_rtw2f"]
+[ext_resource type="PackedScene" uid="uid://xfnhhkjpfne6" path="res://scenes/tile_map_layer.tscn" id="4_oa1go"]
+[ext_resource type="Texture2D" uid="uid://b1dtetwnr1tya" path="res://assets/sprites/run.png" id="5_8ln24"]
+[ext_resource type="FontFile" uid="uid://b6507bxi5fce1" path="res://monogram.ttf" id="7_oa1go"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vw3mj"]
+particle_flag_disable_z = true
+angle_min = 5.000011
+angle_max = 15.0000105
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -50, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vw3mj"]
+shader = ExtResource("3_rtw2f")
+shader_parameter/spritesheet = ExtResource("1_wu84c")
+shader_parameter/frequency = 0.10000000475
+shader_parameter/speed = 5.0
+shader_parameter/size = Vector2(30, 20)
+shader_parameter/direction = Vector2(0.29, 1)
+
+[sub_resource type="Animation" id="Animation_rtw2f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_8ln24")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_tbmy8"]
+resource_name = "start"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_8ln24")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_oa1go"]
+resource_name = "stop"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_8ln24")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jk1qb"]
+_data = {
+&"RESET": SubResource("Animation_rtw2f"),
+&"start": SubResource("Animation_tbmy8"),
+&"stop": SubResource("Animation_oa1go")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dd4i"]
+bg_color = Color(0, 0, 0, 0.41568628)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+expand_margin_left = 5.0
+expand_margin_top = 10.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbmy8"]
+bg_color = Color(0, 0, 0, 0.41568628)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+expand_margin_left = 5.0
+expand_margin_top = 10.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oa1go"]
+bg_color = Color(0.2819191, 0.28191912, 0.28191912, 0.41568628)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+expand_margin_left = 5.0
+expand_margin_top = 10.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jk1qb"]
+bg_color = Color(0, 0, 0, 0.41568628)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_flqon"]
+bg_color = Color(0.2819191, 0.28191912, 0.28191912, 0.41568628)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5veix"]
+bg_color = Color(0, 0, 0, 0.41568628)
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgwnu"]
+bg_color = Color(0.2819191, 0.28191912, 0.28191912, 0.41568628)
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 10.0
+
+[node name="main_menu" type="Control" unique_id=1333568521]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rtw2f")
+metadata/_edit_lock_ = true
+
+[node name="bg" type="Sprite2D" parent="." unique_id=945786108]
+texture_filter = 1
+position = Vector2(637, 517)
+scale = Vector2(177.125, 129.125)
+texture = ExtResource("1_wu84c")
+hframes = 18
+vframes = 9
+frame = 20
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=711081646]
+texture_filter = 1
+position = Vector2(-42, 330.00003)
+scale = Vector2(5.33, 5.33)
+texture = ExtResource("2_8ln24")
+hframes = 8
+metadata/_edit_group_ = true
+
+[node name="dust" type="GPUParticles2D" parent="Sprite2D" unique_id=938232579]
+position = Vector2(-2, 23.5)
+emitting = false
+lifetime = 0.15000000000000002
+process_material = SubResource("ParticleProcessMaterial_vw3mj")
+
+[node name="rain" type="ColorRect" parent="." unique_id=1339848731]
+material = SubResource("ShaderMaterial_vw3mj")
+layout_mode = 0
+offset_left = -156.0
+offset_top = -50.0
+offset_right = 1172.0
+offset_bottom = 876.0
+metadata/_edit_lock_ = true
+
+[node name="TileMapLayer" parent="." unique_id=1587676821 instance=ExtResource("4_oa1go")]
+position = Vector2(3, -250)
+scale = Vector2(6.81, 6.81)
+tile_map_data = PackedByteArray("AAACAA0AAAANAAQAAAADAA0AAAAPAAQAAAAEAA0AAAAKAAQAAAAFAA0AAAAKAAQAAAAGAA0AAAAJAAQAAAAHAA0AAAALAAQAAAAHABAAAAAFAAgAAAAHAA4AAAAFAAgAAAAHAA8AAAAFAAgAAAABAA0AAAAJAAQAAAAAAA0AAAAJAAQAAAD//w0AAAALAAQAAAA=")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=16513558]
+libraries/ = SubResource("AnimationLibrary_jk1qb")
+
+[node name="stop_pos" type="Node2D" parent="." unique_id=1756951593]
+position = Vector2(403, 421)
+
+[node name="Control" type="Control" parent="." unique_id=971023143]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control" unique_id=1485532021]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer" unique_id=1704487687]
+layout_mode = 2
+
+[node name="start" type="Button" parent="Control/CenterContainer/VBoxContainer" unique_id=1473873567]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_oa1go")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_5dd4i")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tbmy8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oa1go")
+text = "Start"
+
+[node name="credits" type="Button" parent="Control/CenterContainer/VBoxContainer" unique_id=2091151491]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_oa1go")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_jk1qb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_jk1qb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_flqon")
+text = "credits"
+
+[node name="quit" type="Button" parent="Control/CenterContainer/VBoxContainer" unique_id=1747758754]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_oa1go")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_5veix")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5veix")
+theme_override_styles/hover = SubResource("StyleBoxFlat_lgwnu")
+text = "quit"
+
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]
