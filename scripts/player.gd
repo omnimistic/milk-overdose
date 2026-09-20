@@ -83,7 +83,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_released("ui_accept") and velocity.y < 0:
 		velocity.y *= 0.67
 	
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") and not is_tele_attacking:
 		if not is_on_floor():
 			if not is_air_slamming:
 				is_air_slamming = true
