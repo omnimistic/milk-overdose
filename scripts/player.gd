@@ -30,6 +30,11 @@ const SWORD_SPEED:float = 100.0
 var sword_rest_pos:Vector2
 var sword_rest_scale:Vector2
 
+var juice_scale_vel:Vector2 = Vector2.ZERO
+var spring_k:float = 200.0
+var damp_c:float = 15.0
+var flash_timer:float = 0.0
+
 func _ready() -> void:
 	if tele_sword:
 		sword_rest_pos = tele_sword.position
@@ -43,6 +48,17 @@ func _process(delta: float) -> void:
 		$Camera2D.offset = Vector2(randf_range(-cam_shake_strength, cam_shake_strength), randf_range(-cam_shake_strength, cam_shake_strength))
 	else:
 		$Camera2D.offset = Vector2.ZERO
+	
+	var displacement = $Sprite2D.scale - Vector2(1.0, 1.0)
+	juice_scale_vel -= (displacement * spring_k) * delta
+	juice_scale_vel -= (juice_scale_vel * damp_c) * delta
+	$Sprite2D.scale += juice_scale_vel * delta
+	
+	if flash_timer > 0:
+		flash_timer -= delta
+		$Sprite2D.modulate = Color(5.0, 5.0, 5.0, 1.0)
+	else:
+		$Sprite2D.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 func apply_camera_shake(strength:float) -> void:
 	cam_shake_strength = strength
@@ -120,6 +136,10 @@ func _physics_process(delta: float) -> void:
 				tele_sword.position.x = abs(tele_sword.position.x)
 			
 			velocity = Vector2.ZERO
+			
+			apply_camera_shake(20.0)
+			$Sprite2D.scale = Vector2(0.2, 2.5)
+			flash_timer = 0.15
 		else:
 			if not is_attacking and not is_tele_attacking:
 				is_tele_attacking = true
