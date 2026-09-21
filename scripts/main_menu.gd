@@ -2,6 +2,8 @@ extends Control
 
 var move = true
 var is_transitioning = false
+var has_triggered_fall = false
+var next_scene_path = ""
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -28,10 +30,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		player_body.velocity.x = 0.0
 	
-	if player_body.global_position.y > $fall_pos.global_position.y:
+	if player_body.global_position.y > $fall_pos.global_position.y and not has_triggered_fall:
+		has_triggered_fall = true
 		var tween = create_tween()
 		tween.tween_interval(0.5)
-		tween.tween_callback(transition_to_level)
+		tween.tween_callback(change_scene)
 		
 	player_body.move_and_slide()
 
@@ -41,13 +44,22 @@ func _on_start_pressed() -> void:
 		
 	is_transitioning = true
 	move = true
+	next_scene_path = "res://scenes/levels/l_1.tscn"
 	$AnimationPlayer.play("start")
 
-func transition_to_level() -> void:
-	get_tree().change_scene_to_file("res://scenes/levels/l_1.tscn")
-
 func _on_credits_pressed() -> void:
-	pass
+	if is_transitioning:
+		return
+		
+	is_transitioning = true
+	move = true
+	next_scene_path = "res://scenes/credits.tscn"
+	$AnimationPlayer.play("start")
+
+
+func change_scene() -> void:
+	if next_scene_path != "":
+		get_tree().change_scene_to_file(next_scene_path)
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()

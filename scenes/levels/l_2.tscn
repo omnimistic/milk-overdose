@@ -1,0 +1,142 @@
+[gd_scene format=4 uid="uid://cxdrow3mhagaw"]
+
+[ext_resource type="Texture2D" uid="uid://copgdwrtf0cu1" path="res://assets/sprites/s4m_ur4i_elements-gamejam-free-8x8-sprites.png" id="1_nh572"]
+[ext_resource type="Shader" uid="uid://cewxsss5abqix" path="res://shaders/rain.gdshader" id="2_8o7ag"]
+[ext_resource type="PackedScene" uid="uid://xfnhhkjpfne6" path="res://scenes/tile_map_layer.tscn" id="3_jv7g4"]
+[ext_resource type="PackedScene" uid="uid://cykqmq06uw1vo" path="res://scenes/player.tscn" id="4_ome6m"]
+[ext_resource type="FontFile" uid="uid://b6507bxi5fce1" path="res://monogram.ttf" id="5_fp2r5"]
+[ext_resource type="PackedScene" uid="uid://7wmr2diaftfl" path="res://scenes/fall_off.tscn" id="6_5kirb"]
+[ext_resource type="Script" uid="uid://b3yssrgettmlr" path="res://scripts/enemy_container.gd" id="7_6fw1l"]
+[ext_resource type="PackedScene" uid="uid://dd2bl1p072i1e" path="res://scenes/key.tscn" id="8_le2ej"]
+[ext_resource type="PackedScene" uid="uid://os3o11hyubww" path="res://scenes/enemies/crabby.tscn" id="9_nn4vk"]
+[ext_resource type="PackedScene" uid="uid://b6m0on0p7tdkf" path="res://scenes/enemies/fierce_tooth.tscn" id="10_4xep2"]
+[ext_resource type="PackedScene" uid="uid://b8mmi01rwdjq" path="res://scenes/enemies/pink_star.tscn" id="11_om8ff"]
+[ext_resource type="PackedScene" uid="uid://w3i3srgtnus4" path="res://scenes/chest.tscn" id="12_8st4b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vw3mj"]
+shader = ExtResource("2_8o7ag")
+shader_parameter/spritesheet = ExtResource("1_nh572")
+shader_parameter/frequency = 0.10000000475
+shader_parameter/speed = 5.0
+shader_parameter/size = Vector2(120, 80)
+shader_parameter/direction = Vector2(0.29, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4yjg"]
+size = Vector2(1273, 21)
+
+[node name="L2" type="Node2D" unique_id=2127071880]
+
+[node name="bg" type="Sprite2D" parent="." unique_id=945786108]
+texture_filter = 1
+position = Vector2(1865.4998, 701)
+scale = Vector2(545.375, 364.502)
+texture = ExtResource("1_nh572")
+hframes = 18
+vframes = 9
+frame = 20
+metadata/_edit_group_ = true
+
+[node name="rain" type="ColorRect" parent="." unique_id=1339848731]
+material = SubResource("ShaderMaterial_vw3mj")
+offset_left = -241.0
+offset_top = -766.0
+offset_right = 3868.0
+offset_bottom = 2122.0
+metadata/_edit_group_ = true
+
+[node name="TileMapLayer" parent="." unique_id=1587676821 instance=ExtResource("3_jv7g4")]
+tile_map_data = PackedByteArray("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")
+
+[node name="player" parent="." unique_id=2050326393 instance=ExtResource("4_ome6m")]
+position = Vector2(140.99994, 366)
+scale = Vector2(1.87, 1.87)
+
+[node name="Label" type="Label" parent="." unique_id=1347511801]
+offset_left = 107.0
+offset_top = 348.0
+offset_right = 324.0
+offset_bottom = 371.0
+theme_override_fonts/font = ExtResource("5_fp2r5")
+text = "NO mo instructions
+ALL THE BEST!"
+horizontal_alignment = 1
+
+[node name="fall_off" parent="." unique_id=203180297 instance=ExtResource("6_5kirb")]
+position = Vector2(2165, 207)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" parent="fall_off" index="0" unique_id=1910236026]
+position = Vector2(-147, -74)
+shape = SubResource("RectangleShape2D_m4yjg")
+
+[node name="fall_off2" parent="." unique_id=498145937 instance=ExtResource("6_5kirb")]
+position = Vector2(2604, 1349)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" parent="fall_off2" index="0" unique_id=1910236026]
+position = Vector2(-147, -74)
+shape = SubResource("RectangleShape2D_m4yjg")
+
+[node name="enemy_container" type="Node2D" parent="." unique_id=478747669]
+script = ExtResource("7_6fw1l")
+key_scene = ExtResource("8_le2ej")
+
+[node name="crabby" parent="enemy_container" unique_id=1354506998 instance=ExtResource("9_nn4vk")]
+position = Vector2(1897, 558)
+metadata/_edit_group_ = true
+
+[node name="to" parent="enemy_container/crabby" index="3" unique_id=391161574]
+position = Vector2(99, 0)
+
+[node name="fro" parent="enemy_container/crabby" index="4" unique_id=1173613418]
+position = Vector2(-132, 6)
+
+[node name="fierce_tooth" parent="enemy_container" unique_id=153438681 instance=ExtResource("10_4xep2")]
+position = Vector2(2427, 469)
+
+[node name="to" parent="enemy_container/fierce_tooth" index="3" unique_id=2082019499]
+position = Vector2(88, 29)
+
+[node name="fro" parent="enemy_container/fierce_tooth" index="4" unique_id=618976815]
+position = Vector2(-106, 32)
+
+[node name="pink_star" parent="enemy_container" unique_id=677510513 instance=ExtResource("11_om8ff")]
+position = Vector2(2170, 516)
+metadata/_edit_group_ = true
+
+[node name="to" parent="enemy_container/pink_star" index="3" unique_id=1505088746]
+position = Vector2(62, 22)
+
+[node name="fro" parent="enemy_container/pink_star" index="4" unique_id=1435524038]
+position = Vector2(-53, 20)
+
+[node name="fierce_tooth2" parent="enemy_container" unique_id=1990611405 instance=ExtResource("10_4xep2")]
+position = Vector2(2968, 1005)
+
+[node name="to" parent="enemy_container/fierce_tooth2" index="3" unique_id=2082019499]
+position = Vector2(59, 8)
+
+[node name="fro" parent="enemy_container/fierce_tooth2" index="4" unique_id=618976815]
+position = Vector2(-107, 7)
+
+[node name="fierce_tooth3" parent="enemy_container" unique_id=875418752 instance=ExtResource("10_4xep2")]
+position = Vector2(3161, 1003)
+
+[node name="to" parent="enemy_container/fierce_tooth3" index="3" unique_id=2082019499]
+position = Vector2(118, 6)
+
+[node name="fro" parent="enemy_container/fierce_tooth3" index="4" unique_id=618976815]
+position = Vector2(-108, 10)
+
+[node name="Area2D" parent="." unique_id=732659442 instance=ExtResource("12_8st4b")]
+position = Vector2(3570, 1040)
+
+[connection signal="child_exiting_tree" from="enemy_container" to="enemy_container" method="_on_child_exiting_tree"]
+
+[editable path="fall_off"]
+[editable path="fall_off2"]
+[editable path="enemy_container/crabby"]
+[editable path="enemy_container/fierce_tooth"]
+[editable path="enemy_container/pink_star"]
+[editable path="enemy_container/fierce_tooth2"]
+[editable path="enemy_container/fierce_tooth3"]
