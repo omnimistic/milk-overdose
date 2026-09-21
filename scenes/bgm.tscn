@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bx0dxt74ekqc"]
+
+[ext_resource type="AudioStream" uid="uid://bny2ym42tu6ed" path="res://assets/audio/Epics8Bit.wav" id="1_q5y64"]
+
+[node name="BGM" type="AudioStreamPlayer" unique_id=45022674]
+stream = ExtResource("1_q5y64")
+volume_db = -9.0
+autoplay = true

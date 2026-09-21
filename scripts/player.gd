@@ -31,7 +31,6 @@ const SWORD_SPEED:float = 160.0
 @onready var tele_sword_sprite_location = $tele_attack_sword/tele_cam_location
 @onready var tele_sword_col = $tele_attack_sword/tele_sword_hitbox/CollisionShape2D
 
-
 var sword_rest_pos:Vector2
 var sword_rest_scale:Vector2
 var sword_cam_rest_pos:Vector2
@@ -51,6 +50,28 @@ var is_tele_sword_crashing:bool = false
 
 @onready var player_hitbox_col = $hit_box/CollisionShape2D 
 var player_hitbox_rest_pos: Vector2
+
+@onready var sfx_footsteps = $footsteps
+@onready var sfx_hurt = $hurt
+@onready var sfx_jump = $jump
+@onready var sfx_tele = $tele
+
+# Audio Stream Arrays
+var jump_sounds: Array[AudioStream] = [
+	preload("res://assets/audio/Jump1.wav"),
+	preload("res://assets/audio/Jump2.wav")
+]
+
+var hurt_sounds: Array[AudioStream] = [
+	preload("res://assets/audio/Hit1.wav"),
+	preload("res://assets/audio/Hit2.wav"),
+	preload("res://assets/audio/Hit3.wav"),
+	preload("res://assets/audio/Hit4.wav")
+]
+
+var footstep_sounds: Array[AudioStream] = [
+	preload("res://assets/audio/sfx_step_grass_r.wav")
+]
 
 func _ready() -> void:
 	if tele_sword:
@@ -104,7 +125,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		combo_active = false
 	
-	# Add the gravity.
 	if not is_on_floor():
 		if is_air_slamming:
 			velocity += (get_gravity() * slam_extra_force) * delta
@@ -123,9 +143,14 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 			has_jumped = true
+			sfx_jump.stream = jump_sounds[0]
+			sfx_jump.play()
+
 		elif can_jump:
 			velocity.y = JUMP_VELOCITY
 			can_jump = false
+			sfx_jump.stream = jump_sounds[1]
+			sfx_jump.play()
 	
 	if Input.is_action_just_released("ui_accept") and velocity.y < 0:
 		velocity.y *= 0.67
@@ -273,6 +298,9 @@ func reset_tele_sword(teleport_player:bool) -> void:
 		apply_camera_shake(20.0)
 		$Sprite2D.scale = Vector2(0.2, 2.5)
 		flash_timer = 0.15
+		if sfx_tele.stream == null:
+			sfx_tele.stream = preload("res://assets/audio/PowerUp1.wav")
+		sfx_tele.play()
 	
 	tele_sword.visible = false
 	tele_sword.top_level = false
@@ -299,6 +327,8 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	$Sprite2D.scale = Vector2(1.5, 0.5)
 	apply_camera_shake(8.0)
 	
+	play_random_sfx(sfx_hurt, hurt_sounds)
+	
 	if knockback != Vector2.ZERO:
 		velocity = knockback
 	
@@ -309,3 +339,12 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 func _on_hit_box_body_entered(body: Node2D) -> void:
 	if body.has_method("receive_damage"):
 		body.receive_damage()
+
+
+func play_random_sfx(player_node: AudioStreamPlayer2D, sound_array: Array[AudioStream]) -> void:
+	if sound_array.is_empty(): return
+	player_node.stream = sound_array[randi() % sound_array.size()]
+	player_node.play()
+
+func trigger_footstep() -> void:
+	play_random_sfx(sfx_footsteps, footstep_sounds)

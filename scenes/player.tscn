@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://bf8prc2mq5dh7" path="res://assets/sprites/tele_attack.png" id="9_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://dduc5b210ej8k" path="res://assets/sprites/tele_attack_sword.png" id="10_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://b6vj4wd1rqrac" path="res://assets/sprites/circle_filled.png" id="11_d2wvv"]
+[ext_resource type="AudioStream" uid="uid://dtgkr1ebmfyvi" path="res://assets/audio/sfx_step_grass_r.wav" id="12_jej6c"]
+[ext_resource type="AudioStream" uid="uid://boledprwhvdha" path="res://assets/audio/PowerUp1.wav" id="13_f1ej7"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vw3mj"]
 particle_flag_disable_z = true
@@ -786,6 +788,17 @@ position = Vector2(15, 2)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_h74sx")
 disabled = true
+
+[node name="footsteps" type="AudioStreamPlayer2D" parent="." unique_id=1333223860]
+stream = ExtResource("12_jej6c")
+volume_db = 6.0
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=476334249]
+
+[node name="jump" type="AudioStreamPlayer2D" parent="." unique_id=1533873096]
+
+[node name="tele" type="AudioStreamPlayer2D" parent="." unique_id=179245172]
+stream = ExtResource("13_f1ej7")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="tele_attack_sword/tele_sword_hitbox" to="." method="_on_tele_sword_hitbox_body_entered"]

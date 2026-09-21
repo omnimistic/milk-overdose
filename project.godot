@@ -15,10 +15,19 @@ run/main_scene="uid://di7hf6llnec3i"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Bgm="*uid://bx0dxt74ekqc"
+
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor]
+
+movie_writer/movie_file="E:/milk-overdose/bg.avi"
+movie_writer/fps=30
 
 [editor_plugins]
 

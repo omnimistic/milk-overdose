@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dmcixpgna0hif"]
+
+[ext_resource type="Texture2D" uid="uid://copgdwrtf0cu1" path="res://assets/sprites/s4m_ur4i_elements-gamejam-free-8x8-sprites.png" id="1_ufh25"]
+[ext_resource type="Shader" uid="uid://cewxsss5abqix" path="res://shaders/rain.gdshader" id="2_k81e3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f68d1"]
+shader = ExtResource("2_k81e3")
+shader_parameter/spritesheet = ExtResource("1_ufh25")
+shader_parameter/frequency = 0.10000000475
+shader_parameter/speed = 5.0
+shader_parameter/size = Vector2(120, 80)
+shader_parameter/direction = Vector2(0.29, 1)
+
+[node name="Node2D" type="Node2D" unique_id=1729426368]
+
+[node name="bg" type="Sprite2D" parent="." unique_id=1228334626]
+texture_filter = 1
+position = Vector2(1865.4998, 701)
+scale = Vector2(545.375, 364.502)
+texture = ExtResource("1_ufh25")
+hframes = 18
+vframes = 9
+frame = 20
+metadata/_edit_group_ = true
+
+[node name="rain" type="ColorRect" parent="." unique_id=1447093434]
+material = SubResource("ShaderMaterial_f68d1")
+offset_left = -241.0
+offset_top = -766.0
+offset_right = 3868.0
+offset_bottom = 2122.0
+metadata/_edit_group_ = true

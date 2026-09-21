@@ -610,7 +610,7 @@ metadata/_edit_lock_ = true
 [node name="TileMapLayer" parent="." unique_id=1587676821 instance=ExtResource("4_ih6pn")]
 position = Vector2(3, -250)
 scale = Vector2(6.81, 6.81)
-tile_map_data = PackedByteArray("AAACAA0AAAALAAQAAAADAA0AAAALAAQAAAAEAA0AAAAPAAQAAAAFAA0AAAANAAQAAAAGAA0AAAAKAAQAAAAHAA0AAAAMAAQAAAABAA0AAAAMAAQAAAAAAA0AAAAQAAQAAAD//w0AAAAOAAQAAAAIAA0AAAAMAAQAAAAJAA0AAAAOAAQAAAAKAA0AAAAKAAQAAAALAA0AAAAQAAQAAAAMAA0AAAAPAAQAAAANAA0AAAAQAAQAAAAOAA0AAAAKAAQAAAAPAA0AAAAPAAQAAAAQAA0AAAAKAAQAAAARAA0AAAALAAQAAAASAA0AAAAJAAQAAAATAA0AAAAMAAQAAAAUAA0AAAANAAQAAAAVAA0AAAAOAAQAAAAWAA0AAAAOAAQAAAA=")
+tile_map_data = PackedByteArray("AAACAA0AAAALAAQAAAADAA0AAAALAAQAAAAEAA0AAAAPAAQAAAAFAA0AAAANAAQAAAAGAA0AAAAKAAQAAAAHAA0AAAAMAAQAAAASAA0AAAAJAAQAAAATAA0AAAAMAAQAAAAUAA0AAAANAAQAAAAVAA0AAAAOAAQAAAAOAA0AAAAKAAQAAAANAA0AAAAQAAQAAAAKAA0AAAAKAAQAAAALAA0AAAAQAAQAAAABAA0AAAAMAAQAAAAAAA0AAAAQAAQAAAD//w0AAAAOAAQAAAAIAA0AAAAMAAQAAAAJAA0AAAAOAAQAAAAMAA0AAAAPAAQAAAAPAA0AAAAPAAQAAAAQAA0AAAAKAAQAAAARAA0AAAALAAQAAAAWAA0AAAAOAAQAAAA=")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=16513558]
 libraries/ = SubResource("AnimationLibrary_jk1qb")
@@ -696,6 +696,18 @@ source: https://pixelfrog-assets.itch.io/treasure-hunters
 
 [b]peony[/b] for the [b]Breakfast Pixel Art[/b] assets
 source: https://opengameart.org/content/breakfast-pixel-art
+
+
+[b]GraalEpic[/b] for the [b]Epics8Bit[/b] background music
+source: https://opengameart.org/content/8-bit-retro-game-background-music-loop-ft-dusk
+
+
+[b]Lamoot[/b] for the [b]walking[/b] sounds
+source: https://opengameart.org/content/grass-foot-step-sounds-yo-frankie
+
+
+[b]Bfxr[/b] for the [b]sound effects[/b] made by me
+source: https://www.bfxr.net/
 
 
 [b]THANKS FOR PLAYING ;)[/b]"
