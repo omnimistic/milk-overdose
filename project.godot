@@ -22,7 +22,6 @@ Bgm="*uid://bx0dxt74ekqc"
 [display]
 
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [editor]
 
@@ -69,6 +68,10 @@ tele_attack={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_mouse_from_touch=false
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
@@ -77,3 +80,4 @@ tele_attack={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

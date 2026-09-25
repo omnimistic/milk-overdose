@@ -13,6 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://b6vj4wd1rqrac" path="res://assets/sprites/circle_filled.png" id="11_d2wvv"]
 [ext_resource type="AudioStream" uid="uid://dtgkr1ebmfyvi" path="res://assets/audio/sfx_step_grass_r.wav" id="12_jej6c"]
 [ext_resource type="AudioStream" uid="uid://boledprwhvdha" path="res://assets/audio/PowerUp1.wav" id="13_f1ej7"]
+[ext_resource type="Script" uid="uid://buu35gobam28q" path="res://scripts/touch_controls.gd" id="14_fulsm"]
+[ext_resource type="Texture2D" uid="uid://c8lgp1xttifqy" path="res://assets/icons/direction_left.svg" id="14_qfm1y"]
+[ext_resource type="Texture2D" uid="uid://biby2irvfmlbp" path="res://assets/icons/direction_right.svg" id="15_fulsm"]
+[ext_resource type="Texture2D" uid="uid://cfxcsqu8ml00f" path="res://assets/icons/icon_jump.svg" id="16_4r5pv"]
+[ext_resource type="Texture2D" uid="uid://ck1gxculb3yrd" path="res://assets/icons/icon_sword.svg" id="17_60mlk"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vw3mj"]
 particle_flag_disable_z = true
@@ -684,6 +689,18 @@ corner_radius_bottom_left = 1000
 radius = 3.0000002
 height = 16.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ej02t"]
+radius = 49.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2urvg"]
+radius = 49.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_14fb3"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p0366"]
+radius = 57.35
+
 [node name="player" type="CharacterBody2D" unique_id=2050326393 groups=["player"]]
 script = ExtResource("1_g2els")
 
@@ -799,6 +816,40 @@ volume_db = 6.0
 
 [node name="tele" type="AudioStreamPlayer2D" parent="." unique_id=179245172]
 stream = ExtResource("13_f1ej7")
+
+[node name="touch_controls" type="CanvasLayer" parent="." unique_id=661027]
+script = ExtResource("14_fulsm")
+
+[node name="left" type="TouchScreenButton" parent="touch_controls" unique_id=1447483107]
+position = Vector2(98, 500)
+texture_normal = ExtResource("14_qfm1y")
+shape = SubResource("CircleShape2D_ej02t")
+passby_press = true
+action = "ui_left"
+
+[node name="right" type="TouchScreenButton" parent="touch_controls" unique_id=1925616405]
+texture_filter = 1
+position = Vector2(219, 500)
+texture_normal = ExtResource("15_fulsm")
+shape = SubResource("CircleShape2D_2urvg")
+passby_press = true
+action = "ui_right"
+
+[node name="jump" type="TouchScreenButton" parent="touch_controls" unique_id=691432252]
+texture_filter = 1
+position = Vector2(925, 416)
+texture_normal = ExtResource("16_4r5pv")
+shape = SubResource("CircleShape2D_14fb3")
+action = "ui_accept"
+visibility_mode = 1
+
+[node name="tele" type="TouchScreenButton" parent="touch_controls" unique_id=1842204997]
+texture_filter = 1
+position = Vector2(1083, 512.00006)
+rotation = 2.3561945
+texture_normal = ExtResource("17_60mlk")
+shape = SubResource("CircleShape2D_p0366")
+action = "tele_attack"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="tele_attack_sword/tele_sword_hitbox" to="." method="_on_tele_sword_hitbox_body_entered"]
