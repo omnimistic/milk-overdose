@@ -52,13 +52,20 @@ func _input(event):
 					Input.action_release("attack")
 
 func _is_touching_button(pos: Vector2) -> bool:
-	var buttons = [left_btn, right_btn, jump_btn, tele_btn]
-	for btn in buttons:
+	var right_side_buttons = [jump_btn, tele_btn]
+	
+	for btn in right_side_buttons:
 		if btn.is_pressed():
 			return true
 			
-		if btn.texture_normal:
-			var rect = Rect2(btn.global_position, btn.texture_normal.get_size() * btn.scale)
-			if rect.has_point(pos):
+		if btn.shape and btn.shape is CircleShape2D:
+			var local_pos = btn.to_local(pos)
+			var center = Vector2.ZERO
+			
+			if btn.shape_centered and btn.texture_normal:
+				center = btn.texture_normal.get_size() / 2.0
+				
+			if local_pos.distance_to(center) <= btn.shape.radius:
 				return true
+				
 	return false
