@@ -119,8 +119,28 @@ func apply_camera_shake(strength:float) -> void:
 func _physics_process(delta: float) -> void:
 	
 	if sword_active and tele_sword and not is_tele_sword_crashing:
-		tele_sword.global_position.x += sword_direction * SWORD_SPEED * delta
-		tele_sword_cam.global_position = tele_sword_sprite_location.global_position
+		var move_step = sword_direction * SWORD_SPEED * delta
+		
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsRayQueryParameters2D.create(tele_sword_col.global_position, tele_sword_col.global_position + Vector2(move_step + (sword_direction * 2.0), 0))
+		query.exclude = [get_rid()]
+		query.hit_from_inside = true
+		
+		var result = space_state.intersect_ray(query)
+		
+		if result and not result.collider.is_in_group("player"):
+			tele_sword.global_position.x = result.position.x
+			tele_sword_cam.global_position = tele_sword_sprite_location.global_position
+			
+			is_tele_sword_crashing = true
+			apply_camera_shake(5.0)
+			$tele_attack_sword/TeleAttackSword.modulate = Color(5.0, 5.0, 5.0, 1.0)
+			var tween = create_tween()
+			tween.tween_interval(0.2)
+			tween.tween_callback(reset_tele_sword.bind(false))
+		else:
+			tele_sword.global_position.x += move_step
+			tele_sword_cam.global_position = tele_sword_sprite_location.global_position
 	
 	if combo_timer > 0:
 		combo_timer -= delta
