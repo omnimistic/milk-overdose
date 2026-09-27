@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://b6vj4wd1rqrac" path="res://assets/sprites/circle_filled.png" id="11_d2wvv"]
 [ext_resource type="AudioStream" uid="uid://dtgkr1ebmfyvi" path="res://assets/audio/sfx_step_grass_r.wav" id="12_jej6c"]
 [ext_resource type="AudioStream" uid="uid://boledprwhvdha" path="res://assets/audio/PowerUp1.wav" id="13_f1ej7"]
+[ext_resource type="Texture2D" uid="uid://dbhhyuun5juo6" path="res://assets/sprites/hp_bar.png" id="14_4r5pv"]
 [ext_resource type="Script" uid="uid://buu35gobam28q" path="res://scripts/touch_controls.gd" id="14_fulsm"]
 [ext_resource type="Texture2D" uid="uid://c8lgp1xttifqy" path="res://assets/icons/direction_left.svg" id="14_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://biby2irvfmlbp" path="res://assets/icons/direction_right.svg" id="15_fulsm"]
@@ -674,6 +675,10 @@ _data = {
 radius = 2.0
 height = 12.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h74sx"]
+radius = 3.0000002
+height = 16.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jej6c"]
 draw_center = false
 border_width_left = 4
@@ -684,10 +689,6 @@ corner_radius_top_left = 1000
 corner_radius_top_right = 1000
 corner_radius_bottom_right = 1000
 corner_radius_bottom_left = 1000
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h74sx"]
-radius = 3.0000002
-height = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ej02t"]
 radius = 49.0
@@ -749,6 +750,25 @@ position = Vector2(16, 2)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_sg1tp")
 
+[node name="hit_box" type="Area2D" parent="." unique_id=1505123072]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box" unique_id=175057664]
+position = Vector2(15, 2)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_h74sx")
+disabled = true
+
+[node name="footsteps" type="AudioStreamPlayer2D" parent="." unique_id=1333223860]
+stream = ExtResource("12_jej6c")
+volume_db = 6.0
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=476334249]
+
+[node name="jump" type="AudioStreamPlayer2D" parent="." unique_id=1533873096]
+
+[node name="tele" type="AudioStreamPlayer2D" parent="." unique_id=179245172]
+stream = ExtResource("13_f1ej7")
+
 [node name="HUD" type="CanvasLayer" parent="." unique_id=659958833]
 
 [node name="tele_sword_cam_mask" type="TextureRect" parent="HUD" unique_id=995909885]
@@ -798,24 +818,63 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="hit_box" type="Area2D" parent="." unique_id=1505123072]
+[node name="healthbar" type="Node2D" parent="HUD" unique_id=429649935]
+position = Vector2(48, 49)
+scale = Vector2(4, 4)
+metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box" unique_id=175057664]
-position = Vector2(15, 2)
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_h74sx")
-disabled = true
+[node name="hp" type="Sprite2D" parent="HUD/healthbar" unique_id=1151794038]
+texture_filter = 1
+texture = ExtResource("14_4r5pv")
+vframes = 3
 
-[node name="footsteps" type="AudioStreamPlayer2D" parent="." unique_id=1333223860]
-stream = ExtResource("12_jej6c")
-volume_db = 6.0
+[node name="hp2" type="Sprite2D" parent="HUD/healthbar" unique_id=232283139]
+texture_filter = 1
+position = Vector2(16, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
 
-[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=476334249]
+[node name="hp3" type="Sprite2D" parent="HUD/healthbar" unique_id=469019616]
+texture_filter = 1
+position = Vector2(32, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
 
-[node name="jump" type="AudioStreamPlayer2D" parent="." unique_id=1533873096]
+[node name="hp4" type="Sprite2D" parent="HUD/healthbar" unique_id=1927673344]
+texture_filter = 1
+position = Vector2(48, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
 
-[node name="tele" type="AudioStreamPlayer2D" parent="." unique_id=179245172]
-stream = ExtResource("13_f1ej7")
+[node name="hp5" type="Sprite2D" parent="HUD/healthbar" unique_id=1984016938]
+texture_filter = 1
+position = Vector2(64, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
+
+[node name="hp6" type="Sprite2D" parent="HUD/healthbar" unique_id=981415870]
+texture_filter = 1
+position = Vector2(80, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
+
+[node name="hp7" type="Sprite2D" parent="HUD/healthbar" unique_id=1418464559]
+texture_filter = 1
+position = Vector2(96, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
+
+[node name="hp8" type="Sprite2D" parent="HUD/healthbar" unique_id=1070795345]
+texture_filter = 1
+position = Vector2(112, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
+
+[node name="hp9" type="Sprite2D" parent="HUD/healthbar" unique_id=1062623474]
+texture_filter = 1
+position = Vector2(128, 0)
+texture = ExtResource("14_4r5pv")
+vframes = 3
 
 [node name="touch_controls" type="CanvasLayer" parent="." unique_id=661027]
 script = ExtResource("14_fulsm")

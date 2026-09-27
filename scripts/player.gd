@@ -90,6 +90,8 @@ func _ready() -> void:
 	
 	if player_hitbox_col:
 		player_hitbox_rest_pos = player_hitbox_col.position
+	
+	update_health_bar()
 
 func _process(delta: float) -> void:
 	if cam_shake_strength > 0:
@@ -322,6 +324,7 @@ func reset_tele_sword(teleport_player:bool) -> void:
 
 func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	hp -= amount
+	update_health_bar()
 	flash_color = Color(5.0, 0.0, 0.0, 1.0) 
 	flash_timer = 0.2
 	$Sprite2D.scale = Vector2(1.5, 0.5)
@@ -335,6 +338,23 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	if hp <= 0:
 		die_from_fall()
 
+
+func update_health_bar() -> void:
+	var target_frame:int = 0
+	
+	if hp > 6:
+		target_frame = 0
+	elif hp > 3:
+		target_frame = 1
+	else:
+		target_frame = 2
+	
+	var lives = $HUD/healthbar.get_children()
+	
+	for i in range(lives.size()):
+		lives[i].frame = target_frame
+		lives[i].visible = i < hp
+	
 
 func _on_hit_box_body_entered(body: Node2D) -> void:
 	if body.has_method("receive_damage"):
