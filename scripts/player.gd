@@ -263,7 +263,21 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			$tele_attack_sword/TeleAttackSword.flip_h = false
 			tele_sword_sprite_location.position.x = abs(sword_cam_rest_pos.x)
 			tele_sword_col.position.x = abs(sword_col_rest_pos.x)
-
+	
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsRayQueryParameters2D.create(global_position, tele_sword_col.global_position)
+		query.exclude = [get_rid()]
+		query.hit_from_inside = true
+		
+		var result = space_state.intersect_ray(query)
+		
+		if result and not result.collider.is_in_group("player"):
+			is_tele_sword_crashing = true
+			apply_camera_shake(5.0)
+			$tele_attack_sword/TeleAttackSword.modulate = Color(5.0, 5.0, 5.0, 1.0)
+			var tween = create_tween()
+			tween.tween_interval(0.2)
+			tween.tween_callback(reset_tele_sword.bind(false))
 
 func die_from_fall():
 	$HUD/ColorRect.visible = true
