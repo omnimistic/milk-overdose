@@ -821,7 +821,6 @@ color = Color(0, 0, 0, 1)
 [node name="healthbar" type="Node2D" parent="HUD" unique_id=429649935]
 position = Vector2(48, 49)
 scale = Vector2(4, 4)
-metadata/_edit_group_ = true
 
 [node name="hp" type="Sprite2D" parent="HUD/healthbar" unique_id=1151794038]
 texture_filter = 1

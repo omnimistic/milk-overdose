@@ -10,9 +10,11 @@ extends CanvasLayer
 var base_scales = {}
 
 func _ready():
-	var is_mobile = OS.get_name() in ["Android", "iOS"]
 	
-	if is_mobile:
+	var is_mobile = OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios")
+	var has_touch = DisplayServer.is_touchscreen_available()
+	
+	if is_mobile or has_touch:
 		show()
 	else:
 		hide()
